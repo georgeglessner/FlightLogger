@@ -20,7 +20,7 @@ today = date.today()
 time = datetime.now().strftime("%H:%M:%S")
 
 # get json data
-json_dump = requests.get(f"http://{IP_ADDR}:8080/data/aircraft.json").json()
+json_dump = requests.get("http://{}:8080/data/aircraft.json".format(IP_ADDR)).json()
 
 # write unique flights for the day to csv file
 with open(filename, "a", newline="") as file:
@@ -35,7 +35,7 @@ with open(filename, "a", newline="") as file:
     # add unique flights for the day
     for entry in json_dump["aircraft"]:
         # print( f'{entry['flight'].strip()}, {date.today()}')
-        if "flight" in entry and f'{entry["flight"].strip()},{today}' not in flights:
+        if "flight" in entry and "{},{}".format(entry['flight'].strip(), today) not in flights:
             writer.writerow(
                 {"flight": entry["flight"].strip(), "date": today, "time": time}
             )
