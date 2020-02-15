@@ -5,25 +5,31 @@ import requests
 import os
 import csv
 
-filename = "flights.csv"
+today = date.today()
+time = datetime.now().strftime("%H:%M:%S")
+
+filename = "{}.csv".format(today)
+folder = 'flights/'
+filepath = folder + filename
+
+if not os.path.isdir(folder):
+    os.mkdir('flights')
 
 # check if files exists
-file_exists = os.path.isfile(filename)
+file_exists = os.path.isfile(filepath)
 
 # get all flights tracked to check against for duplicates
 flights = ""
 if file_exists:
-    with open(filename, "r") as fp:
+    with open(filepath, "r") as fp:
         flights = fp.read()
 
-today = date.today()
-time = datetime.now().strftime("%H:%M:%S")
 
 # get json data
 json_dump = requests.get("http://{}:8080/data/aircraft.json".format(IP_ADDR)).json()
 
 # write unique flights for the day to csv file
-with open(filename, "a", newline="") as file:
+with open(filepath, "a", newline="") as file:
     writer = csv.writer(file)
     fieldnames = ["flight", "date", "time"]
     writer = csv.DictWriter(file, fieldnames=fieldnames)
