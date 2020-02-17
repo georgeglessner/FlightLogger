@@ -2,3 +2,4 @@ flights.csv
 /flights
 /__pycache__
 config.py
+delete.py
