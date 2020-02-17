@@ -3,3 +3,4 @@ flights.csv
 /__pycache__
 config.py
 delete.py
+.DS_Store
