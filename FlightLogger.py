@@ -6,14 +6,22 @@ import os
 import csv
 
 today = date.today()
+month = datetime.now().strftime("%B")
+year = datetime.now().strftime("%Y")
 time = datetime.now().strftime("%H:%M:%S")
 
+# file setup
 filename = "{}.csv".format(today)
-folder = 'flights/'
-filepath = folder + filename
+rootFolder = "flights/"
+subFolder = "{}-{}/".format(month, year)
+filepath = rootFolder + subFolder + filename
 
-if not os.path.isdir(folder):
-    os.mkdir('flights')
+# create root folder and sub folder
+if not os.path.isdir(rootFolder):
+    os.mkdir(rootFolder)
+
+if not os.path.isdir(rootFolder + subFolder):
+    os.mkdir(rootFolder + subFolder)
 
 # check if files exists
 file_exists = os.path.isfile(filepath)
@@ -40,7 +48,10 @@ with open(filepath, "a", newline="") as file:
 
     # add unique flights for the day
     for entry in json_dump["aircraft"]:
-        if "flight" in entry and "{},{}".format(entry['flight'].strip(), today) not in flights:
+        if (
+            "flight" in entry
+            and "{},{}".format(entry["flight"].strip(), today) not in flights
+        ):
             writer.writerow(
                 {"flight": entry["flight"].strip(), "date": today, "time": time}
             )
