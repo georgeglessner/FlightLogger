@@ -1,6 +1,6 @@
 # FlightLogger
 
-A Python 3 script used to Store unique flights per day from dump1090 as a CSV file. 
+A Python 3 script used to store unique flights per day from dump1090 as a CSV file. 
 
 ## Usage
 
